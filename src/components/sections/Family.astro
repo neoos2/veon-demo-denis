@@ -1,0 +1,49 @@
+---
+// #simeina: free family doctor under NHSU (W-F016); two known addresses (W-F004, W-F017).
+import { address, branch } from "../../data/clinic";
+import Plaque from "../Plaque.astro";
+import Arrow from "../Arrow.astro";
+import CallButton from "../CallButton.astro";
+---
+<section id="simeina" class="family block" data-rec="UX-R002" aria-labelledby="simeina-h">
+  <div class="container">
+    <Plaque title="Сімейний лікар" note="Безкоштовно за декларацією" headingId="simeina-h" />
+    <div class="family__body">
+      <div class="family__claim">
+        <p class="family__lead">Безкоштовно за програмою НСЗУ</p>
+        <p class="family__text">Декларація з сімейним лікарем для дорослих і дітей у сімейній амбулаторії ДЕНИС.</p>
+        <CallButton kind="booking" label="Підписати декларацію" />
+      </div>
+      <ul class="family__places" aria-label="Адреси сімейної амбулаторії">
+        <li class="place">
+          <Arrow />
+          <div><h3>{address.street}</h3><p>Основна клініка, {address.near}</p></div>
+        </li>
+        <li class="place">
+          <Arrow />
+          <div><h3>{branch.street}</h3><p>Філія амбулаторії, {branch.note}</p></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .family { --pad-top: var(--space-3xl); --pad-bottom: var(--space-3xl); }
+  .family__body { display: grid; gap: var(--space-2xl); margin-top: var(--space-xl); }
+  .family__claim { display: grid; gap: var(--space-lg); justify-items: start; }
+  .family__lead { font-family: var(--font-display); font-weight: var(--weight-display); font-size: var(--text-section); line-height: 1.08; letter-spacing: -0.015em; max-width: 16ch; text-wrap: balance; }
+  .family__text { max-width: 44ch; }
+  .family__places { display: grid; gap: var(--space-md); }
+  .place {
+    display: flex; gap: var(--space-md); align-items: flex-start; padding: var(--space-lg);
+    border: 2px solid var(--color-brand); border-radius: var(--radius-sign);
+  }
+  .place :global(.arrow) { color: var(--color-brand); margin-top: var(--space-2xs); }
+  .place h3 { font-size: var(--text-lg); line-height: 1.2; }
+  .place p { margin-top: var(--space-2xs); color: var(--color-muted); }
+  @media (min-width: 60rem) {
+    .family { --pad-top: var(--space-4xl); }
+    .family__body { grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); column-gap: var(--space-3xl); align-items: center; margin-top: var(--space-2xl); }
+  }
+</style>

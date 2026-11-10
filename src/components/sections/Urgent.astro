@@ -1,0 +1,43 @@
+---
+// #nevidkladna: ink field, the number set large as the main tel: link (the one place a number is the graphic).
+import { phones, address, hours } from "../../data/clinic";
+import Plaque from "../Plaque.astro";
+---
+<section id="nevidkladna" class="urgent on-dark block" data-rec="UX-R001" aria-labelledby="nevidkladna-h">
+  <div class="container">
+    <Plaque title="Невідкладно" note="Цілодобово, дорослим і дітям" urgent headingId="nevidkladna-h" />
+    <div class="urgent__body">
+      <div class="urgent__call">
+        <p class="urgent__caption">Контакт-центр 24/7</p>
+        <a class="urgent__num num" href={phones.urgent.href} aria-label={`Зателефонувати у невідкладну: ${phones.urgent.display}`}>{phones.urgent.display}</a>
+      </div>
+      <ul class="urgent__facts">
+        <li>{hours.emergency}</li>
+        <li>Приймаємо дорослих і дітей</li>
+        <li>{address.street}, {address.near}</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .urgent { --pad-top: var(--space-2xl); --pad-bottom: var(--space-3xl); }
+  .urgent :global(.plaque) { background: var(--color-brand); }
+  .urgent__body { display: grid; gap: var(--space-xl); margin-top: var(--space-xl); }
+  .urgent__caption { font-size: var(--text-md); }
+  .urgent__num {
+    display: inline-block; margin-top: var(--space-xs);
+    font-family: var(--font-display); font-weight: var(--weight-display); font-size: var(--text-display); line-height: 1;
+    letter-spacing: -0.02em; color: var(--color-on-dark); text-decoration: underline; text-decoration-color: var(--color-urgent);
+    text-decoration-thickness: 4px; text-underline-offset: 10px; white-space: nowrap;
+    transition: text-decoration-color var(--dur-hover) var(--ease-out);
+  }
+  @media (hover: hover) { .urgent__num:hover { text-decoration-color: var(--color-on-dark); } }
+  .urgent__num:active { text-decoration-color: var(--color-on-dark); }
+  .urgent__facts { display: grid; border-top: 1px solid var(--color-line-on-dark); }
+  .urgent__facts li { padding-block: var(--space-md); border-bottom: 1px solid var(--color-line-on-dark); }
+  @media (max-width: 24rem) { .urgent__num { font-size: var(--text-section); } }
+  @media (min-width: 60rem) {
+    .urgent__body { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--space-2xl); align-items: center; margin-top: var(--space-2xl); }
+  }
+</style>

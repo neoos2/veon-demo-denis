@@ -1,0 +1,53 @@
+---
+// #diagnostyka: the MRI fact set as type (UX-F003), the list of studies (W-F011), the lab (W-F012).
+import Plaque from "../Plaque.astro";
+import FutureLink from "../FutureLink.astro";
+import CallButton from "../CallButton.astro";
+const studies = ["КТ", "МРТ", "Рентгенографія", "УЗД", "Ендоскопія", "Мамографія", "Аналізи"];
+---
+<section id="diagnostyka" class="diag block" data-rec="UX-R002" aria-labelledby="diagnostyka-h">
+  <div class="container">
+    <Plaque title="Діагностика" note="КТ, МРТ, УЗД, аналізи" headingId="diagnostyka-h" />
+    <div class="diag__body">
+      <div class="mri">
+        <h3 class="mri__title">МРТ 3&nbsp;Тесла</h3>
+        <dl class="mri__facts">
+          <div><dt>Тунель</dt><dd class="num">70&nbsp;см</dd></div>
+          <div><dt>Вага пацієнта</dt><dd class="num">до 250&nbsp;кг</dd></div>
+          <div><dt>Апарат</dt><dd>Siemens MAGNETOM Skyra, партнер ТОВ «МРТ+»</dd></div>
+        </dl>
+        <p class="studies__lab">Власна лабораторія: більшість аналізів готові протягом години (за словами клініки).</p>
+        <CallButton kind="booking" label="Записатися на КТ, МРТ" />
+      </div>
+      <div class="studies">
+        <h3 class="studies__title">Обстеження на місці</h3>
+        <ul class="studies__list">
+          {studies.map((s) => <li><FutureLink arrow class="studies__row">{s}</FutureLink></li>)}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .diag { --pad-top: var(--space-4xl); --pad-bottom: var(--space-3xl); }
+  .diag__body { display: grid; gap: var(--space-2xl); margin-top: var(--space-xl); }
+  .mri__title { font-size: var(--text-display); line-height: 1; letter-spacing: -0.02em; color: var(--color-brand); }
+  .mri__facts { margin-top: var(--space-xl); border-top: 1px solid var(--color-rule); }
+  .mri__facts div { display: grid; grid-template-columns: minmax(0, 9rem) minmax(0, 1fr); gap: var(--space-md); padding-block: var(--space-md); border-bottom: 1px solid var(--color-rule); }
+  .mri__facts dt { color: var(--color-muted); }
+  .mri__facts dd { font-weight: var(--weight-strong); }
+  .studies__title { font-size: var(--text-lg); line-height: 1.2; }
+  .studies__list { margin-top: var(--space-md); border-top: 1px solid var(--color-rule); }
+  .studies__list li { border-bottom: 1px solid var(--color-rule); }
+  .studies__list :global(.studies__row) { display: flex; justify-content: space-between; width: 100%; min-height: 52px; padding: var(--space-xs) var(--space-2xs); }
+  .studies__list :global(.studies__row .arrow) { --arrow: 14px; color: var(--color-brand); }
+  .studies__list :global(.studies__row:focus-visible) { outline-offset: -3px; }
+  @media (hover: hover) { .studies__list :global(.studies__row:hover) { background: var(--color-paper-2); } }
+  .studies__lab { margin-top: var(--space-xl); max-width: 46ch; }
+  .mri :global(.btn) { margin-top: var(--space-lg); }
+  @media (min-width: 60rem) {
+    .diag__body { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); column-gap: var(--space-3xl); margin-top: var(--space-2xl); }
+    .mri__facts div { grid-template-columns: minmax(0, 12rem) minmax(0, 1fr); }
+  }
+</style>

@@ -1,0 +1,158 @@
+---
+// Header: logo (to #top), six anchors, two calls with numbers (UX S1: one tap to call from any screen).
+// Phones: bar with logo and «Меню» scrolls away; the strip of two calls below it stays sticky.
+import { nav, phones } from "../data/clinic";
+import CallButton from "./CallButton.astro";
+---
+<header class="site-header">
+  <div class="site-header__bar container">
+    <a class="logo" href="#top" aria-label="TOP Clinic DENIS, на початок сторінки">
+      <img src="/img/logo-top-clinic-denis.svg" alt="" width="498" height="139" />
+    </a>
+
+    <nav class="nav-inline" aria-label="Розділи сторінки">
+      <ul>
+        {nav.map((item) => <li><a href={item.href} data-nav>{item.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="header-calls" data-rec="UX-R001">
+      <CallButton kind="urgent" showNumber class="btn--compact" />
+      <CallButton kind="booking" showNumber class="btn--compact" />
+    </div>
+
+    <details class="menu" data-menu>
+      <summary class="menu__toggle">
+        <span class="menu__icon" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span>Меню</span>
+      </summary>
+      <div class="menu__panel">
+        <div class="menu__top">
+          <span class="menu__title">Розділи</span>
+          <button type="button" class="menu__close" data-menu-close>Закрити</button>
+        </div>
+        <nav aria-label="Меню">
+          <ul class="menu__list">
+            {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+          </ul>
+        </nav>
+        <ul class="menu__phones">
+          <li><span>{phones.urgent.label}</span> <a class="num" href={phones.urgent.href}>{phones.urgent.display}</a></li>
+          <li><span>Запис на прийом</span> <a class="num" href={phones.booking.href}>{phones.booking.display}</a></li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</header>
+
+<div class="call-strip" data-rec="UX-R001">
+  <a class="call-strip__btn call-strip__btn--urgent" href={phones.urgent.href}>
+    <span class="call-strip__label">{phones.urgent.short}</span>
+    <span class="call-strip__num num">{phones.urgent.display}</span>
+  </a>
+  <a class="call-strip__btn" href={phones.booking.href}>
+    <span class="call-strip__label">{phones.booking.short}</span>
+    <span class="call-strip__num num">{phones.booking.display}</span>
+  </a>
+</div>
+
+<style>
+  .site-header { background: var(--color-bg); border-bottom: 1px solid var(--color-rule); }
+  .site-header__bar { display: flex; align-items: center; gap: var(--space-lg); min-height: 56px; }
+  .logo { display: block; flex-shrink: 0; margin-inline-end: auto; padding-block: var(--space-xs); border-radius: 2px; }
+  .logo img { width: auto; height: 36px; }
+
+  .nav-inline, .header-calls { display: none; }
+
+  /* Menu (phones and tablets) */
+  .menu { flex-shrink: 0; }
+  .menu__toggle {
+    display: inline-flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm);
+    font-weight: var(--weight-strong); list-style: none; cursor: pointer; border-radius: var(--radius);
+    transition: background-color var(--dur-hover) var(--ease-out);
+  }
+  .menu__toggle::-webkit-details-marker { display: none; }
+  .menu__icon { display: grid; gap: 4px; width: 20px; }
+  .menu__icon span { display: block; height: 2px; background: currentColor; }
+  @media (hover: hover) { .menu__toggle:hover { background: var(--color-paper-2); } }
+
+  .menu__panel { padding: var(--space-md) 0 var(--space-lg); }
+  :global(.js) .menu__panel {
+    position: fixed; inset: 0; z-index: var(--z-menu); overflow-y: auto;
+    padding: var(--space-md) var(--gutter) var(--space-xl);
+    background: var(--color-bg);
+  }
+  .menu__top { display: none; }
+  :global(.js) .menu__top { display: flex; align-items: center; justify-content: space-between; min-height: 56px; margin-bottom: var(--space-lg); }
+  .menu__title { font-family: var(--font-display); font-weight: var(--weight-display); font-size: var(--text-lg); }
+  .menu__close {
+    min-height: 48px; padding: 0 var(--space-md); border: 1px solid var(--color-rule); border-radius: var(--radius);
+    background: transparent; font-weight: var(--weight-strong); cursor: pointer;
+    transition: background-color var(--dur-hover) var(--ease-out);
+  }
+  @media (hover: hover) { .menu__close:hover { background: var(--color-paper-2); } }
+  .menu__list { border-top: 1px solid var(--color-rule); }
+  .menu__list a {
+    display: flex; align-items: center; min-height: 64px; border-bottom: 1px solid var(--color-rule);
+    font-family: var(--font-display); font-weight: var(--weight-display); font-size: var(--text-lg); text-decoration: none; white-space: nowrap;
+  }
+  .menu__phones { display: grid; gap: var(--space-md); margin-top: var(--space-xl); }
+  .menu__phones li { display: grid; gap: var(--space-2xs); color: var(--color-muted); font-size: var(--text-sm); }
+  .menu__phones a {
+    color: var(--color-text); font-family: var(--font-display); font-weight: var(--weight-display); font-size: var(--text-lg);
+    text-decoration: none; min-height: 44px; display: inline-flex; align-items: center;
+  }
+
+  /* Sticky strip of two calls (phones) */
+  .call-strip { display: grid; grid-template-columns: 1fr 1fr; }
+  /* Phones only: the strip is the one sticky element (the header bar scrolls away); on desktop the header is sticky instead. */
+  @media (max-width: 59.99rem) {
+    .call-strip { position: sticky; inset-block-start: 0; z-index: var(--z-nav); }
+  }
+  .call-strip__btn {
+    display: grid; align-content: center; gap: 0; min-height: 56px; padding: var(--space-2xs) var(--space-md);
+    background: var(--color-accent); color: var(--color-text); text-decoration: none; line-height: 1.2;
+    transition: background-color var(--dur-hover) var(--ease-out);
+  }
+  .call-strip__btn--urgent { background: var(--color-urgent); }
+  .call-strip__label { font-size: var(--text-sm); font-weight: var(--weight-strong); }
+  .call-strip__num { font-family: var(--font-display); font-weight: var(--weight-display); font-size: var(--text-md); }
+  .call-strip__btn:focus-visible { outline-offset: -4px; outline-color: var(--color-text); }
+  .call-strip__btn:active { background: var(--color-accent-hover); }
+  .call-strip__btn--urgent:active { background: var(--color-urgent-hover); }
+
+  @media (min-width: 60rem) {
+    .site-header { position: sticky; top: 0; z-index: var(--z-nav); }
+    .site-header__bar { min-height: 72px; }
+    .logo img { height: 40px; }
+    .call-strip { display: none; }
+    .header-calls { display: flex; gap: var(--space-xs); }
+    .header-calls :global(.btn--compact) { min-height: 56px; padding: var(--space-xs) var(--space-md); gap: var(--space-sm); }
+    .header-calls :global(.btn--compact .btn__label) { font-size: var(--text-sm); }
+    .header-calls :global(.btn--compact .btn__num) { font-size: var(--text-md); }
+    .header-calls :global(.btn--compact .arrow) { display: none; }
+  }
+
+  @media (min-width: 80rem) {
+    .menu { display: none; }
+    .logo { margin-inline-end: 0; }
+    .nav-inline { display: block; margin-inline-end: auto; }
+    .nav-inline ul { display: flex; gap: var(--space-2xs); }
+    .nav-inline a {
+      position: relative; display: inline-flex; align-items: center; min-height: 72px; padding: 0 var(--space-xs);
+      font-size: var(--text-sm); font-weight: var(--weight-strong); text-decoration: none; white-space: nowrap;
+      transition: color var(--dur-hover) var(--ease-out);
+    }
+    .nav-inline a::after {
+      content: ""; position: absolute; left: var(--space-xs); right: var(--space-xs); bottom: 12px; height: 3px;
+      background: var(--color-brand); transform: scaleX(0); transform-origin: left;
+      transition: transform var(--dur-short) var(--ease-out);
+    }
+    .nav-inline a:focus-visible { outline-offset: -6px; }
+    .nav-inline a[aria-current="true"] { color: var(--color-brand); }
+    .nav-inline a[aria-current="true"]::after { transform: scaleX(1); }
+  }
+  @media (min-width: 80rem) and (hover: hover) {
+    .nav-inline a:hover { color: var(--color-brand); }
+  }
+</style>

@@ -1,0 +1,11 @@
+---
+// The sign that opens a section: the same sign as on the board. h2 lives inside it.
+import Arrow from "./Arrow.astro";
+interface Props { title: string; note?: string; urgent?: boolean; ink?: boolean; sticky?: boolean; headingId?: string; }
+const { title, note, urgent = false, ink = false, sticky = true, headingId } = Astro.props;
+---
+<div class:list={["plaque", { "plaque--urgent": urgent, "plaque--ink": ink, "plaque--sticky": sticky }]}>
+  <Arrow urgent={urgent} />
+  <h2 id={headingId}>{title}</h2>
+  {note && <p class="plaque__note">{note}</p>}
+</div>

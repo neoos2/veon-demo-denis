@@ -1,0 +1,94 @@
+/* Hallmark · shape: route board + signed sections · genre: modern-minimal · theme: custom · job: book · idea: "Главная как система навигации в холле клиники: шесть табличок «куди вам», и всё сходится к одному входу на Мейтуса, 5" · vibe: "institutional, calm, wayfinding, precise, navy"
+ * paper: #F4F6F2 · accent: #8EDC84 (book) + #F39A1E (urgent) · display: Geologica · body: IBM Plex Sans · hero: H1 слева на бумаге, справа синее табло из 6 табличок до края экрана · nav: логотип, 6 якорей, два звонка с номерами (осознанно, UX S1) · footer: чернильное поле, юрданные, одна строка документов, соцсети текстом · imagery: none (logo only) · signature: табличка табло повторяется заголовком своего раздела
+ * axes: light/geometric-sans/chromatic-blue · posture: full-palette · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: imagery (no client photos), carried by the board, the MRI fact set as type and the building directory instead of stock */
+/* Hallmark · answered F4 · two filled call buttons by design: orange only for «Невідкладна», green only for «Записатися» (concept.md, «Look: сигналы»); colour is the role, not decoration */
+/* Hallmark · waive 39b · hero a.btn 64px · the two call buttons carry the phone number as a second line (UX S1, concept «Первый экран»: number never hidden behind an icon); 52px holds one line only */
+/* Hallmark · waive 59 · section gaps 64 to 240px · concept.md «Смена плотности»: 64 to 96px where the paper changes, 120 to 160px on the same paper; the trust line is a band */
+/* Hallmark · waive 77 · «Сімейний лікар», «Відгуки та визнання» · the first is a statement at section size beside two address signs (concept.md #simeina); the second is the one-line band allowed once (concept.md #dovira, gate 77) */
+/* Hallmark · waive 78 · plaque h2 at 32px · concept.md: every plaque is one sign size (32px), the same sign as on the board; statements inside sections carry 48 to 72px */
+/* Note: one sticky bar at a time: the call strip below 60rem, the header from 60rem (exclusive media queries); section plaques stick at var(--header-h), not 0 */
+/* Client design tokens from design/concept.md (veon-concept: colors, fonts). One system: every colour and font goes through these. */
+:root {
+  /* Colour roles */
+  --color-bg: #F4F6F2;          /* paper */
+  --color-paper-2: #E4F1DE;     /* children's zone */
+  --color-rule: #C9D3DA;        /* decorative hairlines on paper only */
+  --color-text: #0C2236;        /* ink, dark fields */
+  --color-muted: #4A5C6C;       /* secondary text on paper */
+  --color-brand: #0E4D83;       /* board, plaques, links, focus on light */
+  --color-accent: #8EDC84;      /* «Записатися» signal, focus on dark */
+  --color-urgent: #F39A1E;      /* «Невідкладна» signal, fill or on dark only */
+  --color-accent-ink: var(--color-text);
+  --color-urgent-ink: var(--color-text);
+  --color-on-dark: var(--color-bg);
+  --color-focus: var(--color-brand);
+  --color-focus-on-dark: var(--color-accent);
+  /* Derived steps (from the roles above, no new hues) */
+  --color-brand-hover: color-mix(in oklab, var(--color-brand) 86%, var(--color-bg));
+  --color-ink-hover: color-mix(in oklab, var(--color-text) 86%, var(--color-bg));
+  --color-accent-hover: color-mix(in oklab, var(--color-accent) 82%, var(--color-bg));
+  --color-urgent-hover: color-mix(in oklab, var(--color-urgent) 82%, var(--color-bg));
+  --color-line-on-dark: color-mix(in oklab, var(--color-bg) 26%, transparent);
+  --color-line-on-brand: color-mix(in oklab, var(--color-bg) 30%, transparent);
+
+  /* Type */
+  --font-display: "Geologica Variable", "Geologica", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+  --text-sm: 0.9375rem;   /* 15 */
+  --text-md: 1.0625rem;   /* 17 */
+  --text-lg: 1.5rem;      /* 24 */
+  --text-title: 2rem;     /* 32: every plaque on the page */
+  --text-section: clamp(2rem, 1.2rem + 2.4vw, 3rem);      /* 48 */
+  --text-display: clamp(2.75rem, 1.6rem + 3.2vw, 4.5rem); /* 72 */
+  --text-h1: clamp(2.125rem, 5vw, 4.5rem);
+  --text-figure: clamp(4.5rem, 2rem + 5vw, 7rem); /* the four figures of the building, desktop */
+  --weight-body: 400;
+  --weight-strong: 600;
+  --weight-display: 700;
+
+  /* Space (4/8 rhythm) */
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --space-2xl: 64px;
+  --space-3xl: 96px;
+  --space-4xl: 144px;
+
+  /* Layout */
+  --container: 1312px;   /* content inside a 1440 frame */
+  --gutter: 24px;
+  --header-h: 56px;      /* sticky part of the header: call strip on phones */
+  --radius: 6px;         /* buttons, fields */
+  --radius-sign: 4px;    /* plaques */
+  --arrow: 20px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --ease-in: cubic-bezier(.5, 0, .75, 0);
+  --dur-micro: 120ms;
+  --dur-hover: 160ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
+  --dur: var(--dur-long);
+  --stagger: 30ms;
+
+  /* Z levels */
+  --z-sticky: 200;
+  --z-nav: 300;
+  --z-menu: 400;
+  --z-tooltip: 600;
+}
+
+@media (min-width: 40rem) {
+  :root { --gutter: 40px; }
+}
+@media (min-width: 60rem) {
+  :root { --header-h: 72px; --stagger: 40ms; }
+}
+@media (min-width: 90rem) {
+  :root { --gutter: 64px; }
+}

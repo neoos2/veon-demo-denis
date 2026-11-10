@@ -1,0 +1,21 @@
+---
+// #dovira: one line, two facts (W-F025, W-F023). No logos, no stars, no review texts.
+---
+<section id="dovira" class="trust" aria-labelledby="dovira-h">
+  <div class="container trust__row">
+    <h2 id="dovira-h" class="visually-hidden">Відгуки та визнання</h2>
+    <p data-rec="S-R011"><strong class="num">5.0 на DOC.UA</strong> <span>понад 600 відгуків пацієнтів</span></p>
+    <p><strong>Клінічна база</strong> <span>Міжнародного Європейського Університету</span></p>
+  </div>
+</section>
+
+<style>
+  .trust { padding-block: var(--space-xl); border-block: 1px solid var(--color-rule); }
+  .trust__row { display: grid; gap: var(--space-lg); }
+  .trust p { display: grid; gap: var(--space-2xs); }
+  .trust strong { font-family: var(--font-display); font-weight: var(--weight-display); font-size: var(--text-lg); line-height: 1.2; }
+  @media (min-width: 60rem) {
+    .trust__row { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-2xl); }
+    .trust p + p { padding-inline-start: var(--space-2xl); border-inline-start: 1px solid var(--color-rule); }
+  }
+</style>

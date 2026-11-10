@@ -1,0 +1,58 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Hero from "../components/sections/Hero.astro";
+import Urgent from "../components/sections/Urgent.astro";
+import Directions from "../components/sections/Directions.astro";
+import Building from "../components/sections/Building.astro";
+import Diagnostics from "../components/sections/Diagnostics.astro";
+import Kids from "../components/sections/Kids.astro";
+import Family from "../components/sections/Family.astro";
+import Doctors from "../components/sections/Doctors.astro";
+import Trust from "../components/sections/Trust.astro";
+import Contacts from "../components/sections/Contacts.astro";
+import { phones, email, socials } from "../data/clinic";
+
+const title = "Клініка ДЕНИС — багатопрофільна клініка у Києві, Голосіїв";
+const description = "Поліклініка для дорослих і дітей, діагностика КТ і МРТ, стаціонар і невідкладна допомога цілодобово в одній будівлі біля м. «Іподром».";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalClinic",
+      name: "Клініка ДЕНИС (TOP Clinic DENIS)",
+      legalName: "ТОВ «КЛІНІКА «ДЕНИС»",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "вул. Композитора Мейтуса, 5",
+        addressLocality: "Київ",
+        addressRegion: "Голосіївський район",
+        addressCountry: "UA",
+      },
+      telephone: [phones.booking.display, phones.urgent.display],
+      email: email.display,
+      medicalSpecialty: ["Pediatric", "Emergency", "Radiography", "Surgical", "Gynecologic", "Cardiovascular"],
+      department: { "@type": "EmergencyService", name: "Приймальне відділення", openingHours: "Mo-Su 00:00-23:59" },
+      sameAs: socials.map((s) => s.href),
+    },
+    { "@type": "WebSite", name: "Клініка ДЕНИС", inLanguage: "uk" },
+  ],
+};
+---
+<Base lang="uk" title={title} description={description}>
+  <Header slot="header" />
+  <Fragment slot="head"><script is:inline type="application/ld+json" data-rec="SEO-R005" set:html={JSON.stringify(jsonLd)} /></Fragment>
+  <Hero />
+  <Urgent />
+  <Directions />
+  <Building />
+  <Diagnostics />
+  <Kids />
+  <Family />
+  <Doctors />
+  <Trust />
+  <Contacts />
+  <Footer slot="footer" />
+</Base>

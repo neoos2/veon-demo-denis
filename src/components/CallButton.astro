@@ -1,0 +1,18 @@
+---
+// Call button: orange only for «Невідкладна», green only for «Записатися». Optional number as a second line.
+import { phones } from "../data/clinic";
+import Arrow from "./Arrow.astro";
+interface Props { kind: "urgent" | "booking"; label?: string; showNumber?: boolean; rec?: string; class?: string; }
+const { kind, label, showNumber = false, rec, class: cls } = Astro.props;
+const p = phones[kind];
+const text = label ?? p.label;
+const aria = `${text}: ${p.display}`;
+---
+<a class:list={["btn", { "btn--urgent": kind === "urgent" }, cls]} href={p.href} data-rec={rec} aria-label={showNumber ? undefined : aria}>
+  {showNumber ? (
+    <span class="btn__text"><span class="btn__label">{text}</span><span class="btn__num">{p.display}</span></span>
+  ) : (
+    <span>{text}</span>
+  )}
+  <Arrow />
+</a>

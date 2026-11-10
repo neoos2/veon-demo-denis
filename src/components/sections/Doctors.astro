@@ -1,0 +1,52 @@
+---
+// #likari: doctors and prices (UX-R012). Doctor search is a future feature (inactive field), prices open (W-F018), programs (W-F015, W-F020).
+import Plaque from "../Plaque.astro";
+import FutureLink from "../FutureLink.astro";
+const programs = ["Чекапи: індивідуальний і стандартні", "Ведення вагітності", "Онлайн-консультації лікарів", "Консультації фахівців вдома"];
+---
+<section id="likari" class="doctors block" data-rec="UX-R012" aria-labelledby="likari-h">
+  <div class="container">
+    <Plaque title="Лікарі і ціни" note="Ціни відкриті" headingId="likari-h" />
+    <div class="doctors__body">
+      <div class="doctors__search">
+        <label for="doctor-search">Знайти лікаря за прізвищем</label>
+        <input id="doctor-search" name="likar" type="search" disabled aria-describedby="doctor-search-note" />
+        <p id="doctor-search-note" class="doctors__note">Пошук лікаря з'явиться в повній версії сайту.</p>
+        <FutureLink arrow class="doctors__link">Наші лікарі</FutureLink>
+      </div>
+      <div class="doctors__prices">
+        <p class="doctors__lead">Ціни на послуги відкриті</p>
+        <p>Welcome price: знижка 10&nbsp;%. Умови уточнюйте в контакт-центрі.</p>
+        <FutureLink arrow class="doctors__link">Вартість послуг</FutureLink>
+      </div>
+      <div class="doctors__programs">
+        <h3>Програми</h3>
+        <ul>
+          {programs.map((p) => <li><FutureLink arrow class="doctors__row">{p}</FutureLink></li>)}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .doctors { --pad-top: var(--space-3xl); --pad-bottom: var(--space-3xl); }
+  .doctors__body { display: grid; gap: var(--space-2xl); margin-top: var(--space-xl); }
+  .doctors__search { display: grid; gap: var(--space-xs); align-content: start; justify-items: start; }
+  .doctors__search label { font-weight: var(--weight-strong); }
+  .doctors__search input { width: 100%; min-height: 52px; padding: 0 var(--space-md); border: 1px solid var(--color-muted); border-radius: var(--radius); }
+  .doctors__note { color: var(--color-muted); font-size: var(--text-sm); }
+  .doctors :global(.doctors__link) { min-height: 48px; margin-top: var(--space-sm); font-weight: var(--weight-strong); color: var(--color-brand); }
+  .doctors__prices { display: grid; gap: var(--space-sm); align-content: start; justify-items: start; }
+  .doctors__lead { font-family: var(--font-display); font-weight: var(--weight-display); font-size: var(--text-title); line-height: 1.1; }
+  .doctors__programs h3 { font-size: var(--text-lg); line-height: 1.2; }
+  .doctors__programs ul { margin-top: var(--space-md); border-top: 1px solid var(--color-rule); }
+  .doctors__programs li { border-bottom: 1px solid var(--color-rule); }
+  .doctors__programs :global(.doctors__row) { display: flex; justify-content: space-between; width: 100%; min-height: 52px; padding: var(--space-xs) var(--space-2xs); }
+  .doctors__programs :global(.doctors__row .arrow), .doctors :global(.doctors__link .arrow) { --arrow: 14px; color: var(--color-brand); }
+  .doctors__programs :global(.doctors__row:focus-visible) { outline-offset: -3px; }
+  @media (hover: hover) { .doctors__programs :global(.doctors__row:hover) { background: var(--color-paper-2); } }
+  @media (min-width: 60rem) {
+    .doctors__body { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--space-2xl); margin-top: var(--space-2xl); }
+  }
+</style>

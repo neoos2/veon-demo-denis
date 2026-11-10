@@ -1,0 +1,113 @@
+---
+// #top: the router. H1 and two calls on paper, the blue board «Куди вам?» of six signs to the screen edge.
+import { routes } from "../../data/clinic";
+import Arrow from "../Arrow.astro";
+import CallButton from "../CallButton.astro";
+---
+<section id="top" class="hero" data-rec="UX-R001,G-R006,MT-R006" aria-labelledby="hero-title">
+  <div class="hero__text">
+    <h1 id="hero-title">Лікарі, діагностика і стаціонар в одній будівлі на Голосієві</h1>
+    <ul class="hero__facts">
+      <li>Дорослим і дітям</li>
+      <li>Невідкладна допомога цілодобово</li>
+      <li>Біля метро «Іподром»</li>
+    </ul>
+    <div class="hero__actions">
+      <CallButton kind="urgent" showNumber />
+      <CallButton kind="booking" showNumber />
+    </div>
+  </div>
+
+  <nav class="board on-brand" aria-labelledby="board-title">
+    <p class="board__title" id="board-title">Куди вам?</p>
+    <ul class="board__list">
+      {routes.map((r, i) => (
+        <li class:list={["board__item", { "board__item--urgent": "urgent" in r && r.urgent }]} data-reveal style={`--i:${i}`}>
+          <a class="sign" href={r.href}>
+            <span class="sign__text">
+              <span class="sign__title">{r.title}</span>
+              <span class="sign__note">{r.note}</span>
+            </span>
+            <Arrow urgent={"urgent" in r && r.urgent} />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</section>
+
+<style>
+  .hero { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .hero__text {
+    width: min(100% - 2 * var(--gutter), var(--container)); margin-inline: auto;
+    padding-block: var(--space-lg) var(--space-lg);
+  }
+  h1 { font-size: var(--text-h1); line-height: 1.02; letter-spacing: -0.02em; max-width: 16ch; text-wrap: balance; }
+  .hero__facts { display: grid; gap: 0; margin-top: var(--space-md); font-size: var(--text-md); line-height: 1.45; }
+  .hero__actions { display: none; }
+
+  .board { padding: var(--space-md) var(--gutter) var(--space-lg); }
+  .board__title { font-family: var(--font-display); font-weight: var(--weight-display); font-size: var(--text-lg); line-height: 1.1; margin-bottom: var(--space-sm); }
+  .board__list {
+    display: grid; grid-template-columns: minmax(0, 1fr); gap: 1px;
+    background: var(--color-line-on-brand); border: 1px solid var(--color-line-on-brand); border-radius: var(--radius-sign); overflow: hidden;
+  }
+  .board__item { background: var(--color-brand); min-width: 0; }
+  .sign {
+    position: relative; display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm);
+    height: 100%; min-height: 60px; padding: var(--space-xs) var(--space-md);
+    color: var(--color-on-dark); text-decoration: none;
+    transition: background-color var(--dur-hover) var(--ease-out);
+  }
+  .sign:focus-visible { outline: 3px solid var(--color-focus-on-dark); outline-offset: -5px; }
+  .sign:active { background: var(--color-brand-hover); }
+  .sign__text { display: grid; gap: var(--space-2xs); min-width: 0; }
+  .sign__title { font-family: var(--font-display); font-weight: var(--weight-display); font-size: var(--text-lg); line-height: 1.1; overflow-wrap: break-word; }
+  .sign__note { display: none; font-size: var(--text-sm); line-height: 1.35; }
+  .board__item--urgent .sign { box-shadow: inset 6px 0 0 var(--color-urgent); }
+  .board__item--urgent .sign__note { display: block; }
+  @media (hover: hover) { .sign:hover { background: var(--color-brand-hover); } }
+
+
+  .board__item--urgent .sign { min-height: 76px; }
+  @media (min-width: 40rem) {
+    .board__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .board__item--urgent, .board__item:last-child { grid-column: 1 / -1; }
+    .sign__note { display: block; }
+    .sign { min-height: 96px; padding: var(--space-sm) var(--space-md); }
+    .sign__title { font-size: var(--text-lg); }
+  }
+
+  @media (min-width: 60rem) {
+    .hero {
+      grid-template-columns:
+        minmax(var(--gutter), 1fr)
+        minmax(0, calc(var(--container) * 5 / 12))
+        minmax(0, calc(var(--container) * 7 / 12))
+        minmax(var(--gutter), 1fr);
+      min-height: calc(100svh - var(--header-h));
+    }
+    .hero__text {
+      grid-column: 2; width: auto; margin: 0; align-self: center;
+      padding: var(--space-2xl) var(--space-2xl) var(--space-2xl) 0;
+    }
+    .hero__facts { margin-top: var(--space-lg); font-size: var(--text-md); }
+    .hero__actions { display: grid; gap: var(--space-sm); margin-top: var(--space-xl); justify-items: start; }
+    .hero__actions :global(.btn) { min-width: 300px; min-height: 64px; padding-block: var(--space-sm); }
+    .board {
+      grid-column: 3 / -1; display: flex; flex-direction: column; justify-content: center;
+      padding: var(--space-xl) var(--gutter) var(--space-xl) var(--space-2xl);
+    }
+    .board__title { font-size: var(--text-title); margin-bottom: var(--space-lg); }
+    .board__list { grid-template-columns: minmax(0, 1fr); gap: 0; background: none; border: 0; border-top: 1px solid var(--color-line-on-brand); border-radius: 0; overflow: visible; max-width: 760px; }
+    .board__item { border-bottom: 1px solid var(--color-line-on-brand); }
+    .board__item--urgent, .board__item:last-child { grid-column: auto; }
+    .sign { min-height: 92px; padding: var(--space-md) var(--space-lg); }
+    .sign__text { flex: 1; }
+    .sign__title { font-size: var(--text-title); }
+    .sign__note { font-size: var(--text-md); }
+  }
+  @media (min-width: 80rem) {
+    .sign__text { grid-template-columns: minmax(0, 20rem) minmax(0, 1fr); align-items: baseline; gap: var(--space-lg); }
+  }
+</style>

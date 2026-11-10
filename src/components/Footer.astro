@@ -1,0 +1,38 @@
+---
+// Footer: continues the ink field. Legal data (W-F003), one row of documents (future pages), socials as text, UA / RU.
+import { legal, socials } from "../data/clinic";
+import FutureLink from "./FutureLink.astro";
+const docs = ["Договір", "Реквізити", "Політика конфіденційності", "Питання та відповіді", "Кар'єра"];
+---
+<footer class="site-footer on-dark">
+  <div class="container site-footer__row">
+    <div class="site-footer__legal">
+      <p>{legal}</p>
+      <p class="site-footer__lang"><span aria-current="true">UA</span> <FutureLink>RU</FutureLink></p>
+    </div>
+    <nav aria-label="Документи">
+      <ul class="site-footer__docs">
+        {docs.map((d) => <li><FutureLink>{d}</FutureLink></li>)}
+      </ul>
+    </nav>
+    <ul class="site-footer__social" aria-label="Соцмережі" data-rec="S-R010">
+      {socials.map((s) => <li><a href={s.href} target="_blank" rel="noopener">{s.name}</a></li>)}
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .site-footer { padding-block: 0 var(--space-xl); }
+  .site-footer__row { display: grid; gap: var(--space-xl); padding-top: var(--space-xl); border-top: 1px solid var(--color-line-on-dark); font-size: var(--text-sm); }
+  .site-footer__legal { display: grid; gap: var(--space-sm); align-content: start; }
+  .site-footer__lang { display: flex; gap: var(--space-md); align-items: center; }
+  .site-footer__lang span[aria-current] { font-weight: var(--weight-strong); text-decoration: underline; text-underline-offset: 4px; }
+  .site-footer__docs, .site-footer__social { display: flex; flex-wrap: wrap; gap: var(--space-2xs) var(--space-lg); }
+  .site-footer__docs :global(.future-link), .site-footer__social a, .site-footer__lang :global(.future-link) { min-height: 44px; display: inline-flex; align-items: center; white-space: nowrap; }
+  .site-footer__social a { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; transition: text-decoration-thickness var(--dur-hover) var(--ease-out); }
+  @media (hover: hover) { .site-footer__social a:hover { text-decoration-thickness: 2px; } }
+  @media (min-width: 60rem) {
+    .site-footer__row { grid-template-columns: minmax(0, 4fr) minmax(0, 5fr) minmax(0, 3fr); column-gap: var(--space-xl); }
+    .site-footer__social { justify-content: flex-end; }
+  }
+</style>

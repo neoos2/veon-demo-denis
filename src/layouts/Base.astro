@@ -1,0 +1,38 @@
+---
+import "@fontsource-variable/geologica/wght.css";
+import "@fontsource/ibm-plex-sans/400.css";
+import "@fontsource/ibm-plex-sans/600.css";
+import "../styles/tokens.css";
+import "../styles/global.css";
+import geologicaCyr from "@fontsource-variable/geologica/files/geologica-cyrillic-wght-normal.woff2?url";
+
+interface Props { lang: string; title: string; description: string; canonical?: string; }
+const { lang, title, description, canonical } = Astro.props;
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <script is:inline>document.documentElement.classList.add("js")</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="uk_UA" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href={geologicaCyr} as="font" type="font/woff2" crossorigin />
+    <slot name="head" />
+    <style is:global>html { overflow-x: clip; } body { overflow-x: clip; }</style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">До змісту</a>
+    <slot name="header" />
+    <main id="main" data-rec="UX-R008,SEO-R003,WA-R001"><slot /></main>
+    <slot name="footer" />
+    <script src="../scripts/reveal.ts"></script>
+    <script src="../scripts/site.ts"></script>
+  </body>
+</html>

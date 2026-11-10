@@ -1,0 +1,40 @@
+---
+// #dityam: its own zone on light-green paper. The separate entrance first (W-F012), then three points (W-F013, W-F014).
+import Plaque from "../Plaque.astro";
+import CallButton from "../CallButton.astro";
+const points = [
+  { title: "Педіатрія", text: "Дитяча поліклініка: педіатр і дитячі спеціалісти, від неонатолога до логопеда." },
+  { title: "Вакцинаційний центр", text: "Окремий вхід. Перед щепленням обов'язкова консультація педіатра." },
+  { title: "Програма «МАЛЮК»", text: "Спостереження дітей до року. Вакцини оплачуються окремо." },
+];
+---
+<section id="dityam" class="kids block" data-rec="UX-R002" aria-labelledby="dityam-h">
+  <div class="container">
+    <Plaque title="Дитині" note="Окремий вхід і ліфт" headingId="dityam-h" />
+    <div class="kids__body">
+      <p class="kids__lead">Окремий дитячий вхід і&nbsp;ліфт</p>
+      <ul class="kids__points">
+        {points.map((p) => (
+          <li><h3>{p.title}</h3><p>{p.text}</p></li>
+        ))}
+      </ul>
+      <CallButton kind="booking" label="Записати дитину" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .kids { --pad-top: var(--space-3xl); --pad-bottom: var(--space-3xl); background: var(--color-paper-2); }
+  .kids__body { display: grid; gap: var(--space-xl); margin-top: var(--space-xl); justify-items: start; }
+  .kids__lead { font-family: var(--font-display); font-weight: var(--weight-display); font-size: var(--text-display); line-height: 1.02; letter-spacing: -0.02em; max-width: 14ch; text-wrap: balance; }
+  .kids__points { display: grid; gap: 0; width: 100%; border-top: 1px solid var(--color-muted); }
+  .kids__points li { display: grid; gap: var(--space-xs); padding-block: var(--space-lg); border-bottom: 1px solid var(--color-muted); }
+  .kids__points h3 { font-size: var(--text-lg); line-height: 1.2; }
+  .kids__points p { max-width: 40ch; }
+  @media (min-width: 60rem) {
+    .kids__body { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--space-xl); margin-top: var(--space-2xl); }
+    .kids__lead { grid-column: 1 / -1; }
+    .kids__points { grid-column: 1 / -1; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--space-xl); }
+    .kids__points li { border-bottom: 0; }
+  }
+</style>

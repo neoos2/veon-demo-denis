@@ -1,0 +1,66 @@
+---
+// #budivlia: blue field. The clinic's own figures (W-F009) and the directory of what is under one roof (W-F010, W-F011, W-F012).
+import Plaque from "../Plaque.astro";
+import CallButton from "../CallButton.astro";
+const figures = [
+  { n: "157", label: "лікарів" },
+  { n: "52", label: "ліжка стаціонару" },
+  { n: "10", label: "ліжок інтенсивної терапії" },
+  { n: "4", label: "операційні" },
+];
+const directory = [
+  "Поліклініка для дорослих", "Дитяча поліклініка з окремим входом і ліфтом", "Вакцинаційний центр",
+  "Власна лабораторія", "КТ, МРТ, рентген, УЗД", "Операційні", "Інтенсивна терапія", "Стаціонар",
+];
+---
+<section id="budivlia" class="building on-brand block" data-rec="UX-R003,G-R008" aria-labelledby="budivlia-h">
+  <div class="container">
+    <Plaque title="Одна будівля" note="Стаціонар, операційні, інтенсивна терапія" ink headingId="budivlia-h" />
+    <div class="building__body">
+      <dl class="figures">
+        {figures.map((f) => (
+          <div class="figure">
+            <dt class="figure__label">{f.label}</dt>
+            <dd class="figure__n num">{f.n}</dd>
+          </div>
+        ))}
+      </dl>
+      <div class="directory">
+        <h3 class="directory__title">Під одним дахом</h3>
+        <ul class="directory__list">
+          {directory.map((d) => <li>{d}</li>)}
+        </ul>
+        <CallButton kind="booking" label="Записатися на чекап" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .building { --pad-top: var(--space-2xl); --pad-bottom: var(--space-3xl); }
+  .building__body { display: grid; gap: var(--space-2xl); margin-top: var(--space-xl); }
+  .figures { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--space-xl); }
+  .figure { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: var(--space-xs); padding-inline: var(--space-md); border-inline-start: 1px solid var(--color-line-on-brand); }
+  .figure:nth-child(odd) { padding-inline-start: 0; border-inline-start: 0; }
+  .figure__n { font-family: var(--font-display); font-weight: var(--weight-display); font-size: var(--text-display); line-height: 1; letter-spacing: -0.02em; }
+  .figure__label { font-size: var(--text-md); line-height: 1.35; }
+  .directory__title { font-size: var(--text-lg); line-height: 1.2; }
+  .directory__list { margin-top: var(--space-md); border-top: 1px solid var(--color-line-on-brand); }
+  .directory__list li { padding-block: var(--space-sm); border-bottom: 1px solid var(--color-line-on-brand); }
+  .directory :global(.btn) { margin-top: var(--space-xl); }
+  @media (min-width: 40rem) {
+    .directory__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-xl); }
+  }
+  @media (min-width: 60rem) {
+    .building { --pad-top: var(--space-2xl); --pad-bottom: var(--space-3xl); }
+    .building__body { gap: var(--space-3xl); margin-top: var(--space-2xl); }
+    .figure__n { font-size: var(--text-figure); }
+    .directory { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); column-gap: var(--space-xl); align-items: start; }
+    .directory__title { grid-row: 1 / span 2; }
+    .directory__list { margin-top: 0; }
+    .directory :global(.btn) { grid-column: 2; justify-self: start; }
+    .figures { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .figure, .figure:nth-child(odd) { padding-inline: var(--space-lg); border-inline-start: 1px solid var(--color-line-on-brand); }
+    .figure:first-child { padding-inline-start: 0; border-inline-start: 0; }
+  }
+</style>
